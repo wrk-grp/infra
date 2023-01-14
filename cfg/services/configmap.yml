@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Name}}
+  namespace: {{.Namespace}}
+  labels:
+    app: {{.Name}}
+data:
+  # Data from cmd/cfg/.service.yml will be merged in here per service.
+{{.Data}}

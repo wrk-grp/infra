@@ -1,0 +1,49 @@
+infrastructure:
+  consul:
+    type: helm
+    name: consul
+    url: https://helm.releases.hashicorp.com
+    repo: hashicorp
+    chart: hashicorp/consul
+    values: consul.yml
+    namespace: consul
+  gateway:
+    type: kubectl
+    name: gateway
+    url: ""
+    values: gateway.yml
+    namespace: consul
+  prometheus:
+    type: helm
+    name: prometheus
+    url: https://prometheus-community.github.io/helm-charts
+    repo: prometheus-community
+    chart: prometheus-community/prometheus
+    values: prometheus.yml
+    namespace: default
+  grafana:
+    type: helm
+    name: grafana
+    url: https://grafana.github.io/helm-charts
+    repo: grafana
+    chart: grafana/grafana
+    values: grafana.yml
+    namespace: default
+  loki:
+    name: loki
+    type: helm
+    url: https://grafana.github.io/helm-charts
+    repo: grafana
+    chart: grafana/loki-stack
+    namespace: default
+  argocd:
+    name: argocd
+    type: kubectl
+    url: ""
+    values: argocd.yml
+    namespace: default
+
+services:
+  gateway-service:
+    name: gateway-service
+    type: kubectl

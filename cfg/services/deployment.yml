@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{.Name}}
+  name: {{.Name}}
+  namespace: {{.Namespace}}
+spec:
+  selector:
+    matchLabels:
+      app: {{.Name}}
+  template:
+    metadata:
+      labels:
+        app: {{.Name}}
+    spec:
+      volumes:
+        - name: {{.Name}}-volume
+          configMap:
+            name: {{.Name}}-config
+            items:
+              - key: {{.Name}}-yml
+                path: .{{.Name}}.yml
+            defaultMode: 420
+      containers:
+        - name: {{.Name}}
+          imagePullPolicy: Always
+          image: theapemachine/{{.Name}}:tag
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "256m"
+            limits:
+              memory: "512Mi"
+              cpu: "512m"
+          ports:
+            - containerPort: 1984
+              name: http
+          volumeMounts:
+            - name: {{.Name}}-volume
+              mountPath: /root/
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always
+
