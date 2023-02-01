@@ -11,7 +11,9 @@ import (
 	"github.com/containerd/containerd/oci"
 )
 
-func main() {
+type Daemon struct{}
+
+func NewDaemon() *Daemon {
 	// Connect to containerd
 	client, err := containerd.New("/run/containerd/containerd.sock")
 	if err != nil {
@@ -60,4 +62,6 @@ func main() {
 
 	// Print the exit status
 	fmt.Println("Exit status:", status)
+
+	return &Daemon{}
 }
